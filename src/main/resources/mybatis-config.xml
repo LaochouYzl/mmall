@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 引入数据库连接配置 -->
+	<properties resource="db.properties"></properties>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	<!-- 定义别名 -->
+	<!-- <typeAliases>
+		用pojo对象定义别名
+		<typeAlias type="cn.laochou.pojo.Blog" alias="Blog"/>
+		用包来定义别名,别名自动类名
+		<package name="cn.laochou.pojo"/>
+	</typeAliases> -->
+	<!-- 定义数据源 -->
+	<typeAliases>
+		<!-- <typeAlias type="cn.laochou.pojo.Admin" alias="Admin"/> -->
+		<package name="cn.laochou.pojo"/>
+	</typeAliases>
+	<!-- <environments default="development">
+		<environment id="development">
+			采用事务管理
+			<transactionManager type="JDBC"></transactionManager>
+			数据源,采用连接池
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}"/>
+				<property name="url" value="${jdbc.url}"/>
+				<property name="username"  value="${jdbc.username}"></property>
+				<property name="password" value="${jdbc.password}"></property>
+			</dataSource>
+		</environment>
+		<environment id="production"></environment>
+		<environment id="test"></environment>
+	</environments> -->
+	<!-- 引入分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+	</plugins>
+	
+	<mappers>
+		<!-- <mapper resource="cn/laochou/mapper/BlogMapper.xml"/> -->
+		<package name="cn.laochou.mapper"/>
+	</mappers>
+</configuration>

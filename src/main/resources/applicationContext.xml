@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context.xsd
+	 http://www.springframework.org/schema/aop
+	 http://www.springframework.org/schema/aop/spring-aop.xsd
+	 http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx.xsd">
+	 <!-- Spring配置文件,有关业务逻辑的配置,数据源,业务操作.... -->
+	 
+<!-- tx为事物配置的命名空间,aop为切面,p命名空间 -->
+ <!-- 注解,指定要扫描的包,在类中使用注解 -->
+<context:component-scan base-package="com.mmall"></context:component-scan>
+<!-- 读取数据库的配置文件 -->
+<context:property-placeholder location="classpath:db.properties"/>
+<!-- 数据源 -->
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	 <property name="driverClassName" value="${db.driver}" />
+	 <property name="url" value="${db.url}" /> 
+	 <property name="username" value="${db.username}" /> 
+	 <property name="password" value="${db.password}" /> 
+</bean>
+
+<!-- 整合mybatis -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!-- 数据源 -->
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	<!-- 配置mybatis,mapper文件的位置 -->
+	<property name="mapperLocations" value="classpath*:cn.laochou.mapper/*.xml"></property>
+</bean>
+
+<!-- 注入DAO对象,配置mapper,MapperFactoryBean :用于生成mapper代理对象 -->
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- 配置扫描包的路径,如果要扫描多个包 -->
+	<property name="basePackage" value="cn.laochou.mapper"></property>
+	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+</bean>
+
+<!-- 配置一个批量操作的sqlSession -->
+<bean class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	<constructor-arg name="executorType" value="BATCH"></constructor-arg>
+</bean>
+
+<!-- <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="dataSource"></property>
+</bean> -->
+<!-- 事物管理器 -->
+<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- 控制数据源 -->
+	<property name="dataSource" ref="dataSource"></property>
+</bean>
+<!-- 开启注解事物管理 -->
+<tx:annotation-driven/>
+<!-- 切入点 (将通知织入)-->
+<aop:config>
+	<aop:pointcut expression="execution(* cn.laochou.service..*.*(..)))" id="txPointCut"/>
+	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+	<aop:aspect></aop:aspect>
+</aop:config>
+
+<!-- 通知 -->
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:attributes>
+		<!-- 传播行为 -->
+		<!-- 支持当前行为,如果没有就创建一个 -->
+		<tx:method name="transfer" propagation="REQUIRED"/>
+		<tx:method name="save*" propagation="REQUIRED"/>
+		<tx:method name="update*" propagation="REQUIRED"/>
+		<tx:method name="delete*" propagation="REQUIRED"/>
+		<tx:method name="create*" propagation="REQUIRED"/>
+		<tx:method name="get*" propagation="SUPPORTS"/>
+		<tx:method name="select*" propagation="SUPPORTS" read-only="true"/><!-- 表示只读 -->
+	</tx:attributes>
+</tx:advice>
+
+</beans>
