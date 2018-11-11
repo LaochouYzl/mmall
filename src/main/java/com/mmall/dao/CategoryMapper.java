@@ -1,5 +1,7 @@
 package com.mmall.dao;
 
+import java.util.List;
+
 import com.mmall.pojo.Category;
 
 public interface CategoryMapper {
@@ -14,4 +16,7 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+    
+    // 根据parentId获取孩子节点
+    List<Category> selectCategoryChildrenByParentId(Integer parentId);
 }

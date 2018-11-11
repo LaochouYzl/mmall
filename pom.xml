@@ -13,13 +13,12 @@
   	<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
   	
   	<!-- 版本的管理, Spring, Mybatis, 以及Spring和Mybatis的整合包 -->
-  	<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
-  	<org.mybatis.version>3.4.1</org.mybatis.version>
-  	<org.mybatis.spring.version>1.3.0</org.mybatis.spring.version>
+  	<org.springframework.version>4.2.8.RELEASE</org.springframework.version>
+  	<org.mybatis.version>3.2.7</org.mybatis.version>
+  	<org.mybatis.spring.version>1.2.3</org.mybatis.spring.version>
   </properties>
   
   <dependencies>
-  	
   	<!-- servlet 的jar包 -->
   	<dependency>
   		<groupId>org.apache.tomcat</groupId>
@@ -76,7 +75,7 @@
   	<dependency>
   		<groupId>org.aspectj</groupId>
   		<artifactId>aspectjweaver</artifactId>
-  		<version>1.7.3</version>
+  		<version>1.8.3</version>
   	</dependency>
   	
   	<!-- Spring Mybatis 集成jar包 -->
@@ -110,9 +109,9 @@
   	
   	<!-- 连接池 -->
   	<dependency>
-  		<groupId>commons-dbcp</groupId>
-  		<artifactId>commons-dbcp</artifactId>
-  		<version>1.4</version>
+  		<groupId>com.alibaba</groupId>
+  		<artifactId>druid</artifactId>
+  		<version>1.0.9</version>
   	</dependency>
   	
   	<!-- 日志 -->
@@ -140,7 +139,7 @@
   	<dependency>
   		<groupId>com.google.guava</groupId>
   		<artifactId>guava</artifactId>
-  		<version>20.0</version>
+  		<version>21.0</version>
   	</dependency>
   	
   	
@@ -247,6 +246,7 @@
   		<version>1.3</version>
   	</dependency>
   	
+  	
   </dependencies>
   
   <build>
@@ -270,7 +270,7 @@
 			</dependencies>
   		</plugin>
   		
-  		<!-- geelynote maven的核心插件之一 -->
+  		<!-- 
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>
   			<artifactId>maven-compiler-plugin</artifactId>
@@ -283,7 +283,7 @@
   					<extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
   				</compilerArguments>
   			</configuration>
-  		</plugin>
+  		</plugin> -->
   	</plugins>
   </build>
   

@@ -119,4 +119,18 @@ public class User {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", phone="
+				+ phone + ", question=" + question + ", answer=" + answer + ", role=" + role + ", createTime="
+				+ createTime + ", updateTime=" + updateTime + ", getId()=" + getId() + ", getUsername()="
+				+ getUsername() + ", getPassword()=" + getPassword() + ", getEmail()=" + getEmail() + ", getPhone()="
+				+ getPhone() + ", getQuestion()=" + getQuestion() + ", getAnswer()=" + getAnswer() + ", getRole()="
+				+ getRole() + ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
+    
+    
 }
